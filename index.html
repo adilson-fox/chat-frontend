@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala de Chat</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="chat-container">
+        <h1>Sala de Chat</h1>
+        
+        <div id="messages-display" class="messages-display"></div>
+
+        <form id="message-form" class="message-form">
+            <input type="text" id="username-input" placeholder="Digite seu nome..." required>
+            <input type="text" id="message-input" placeholder="Digite sua mensagem..." required>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <!-- Cliente do Socket.IO -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <!-- Seu código -->
+    <script src="chat.js"></script>
+
+</body>
+</html>
