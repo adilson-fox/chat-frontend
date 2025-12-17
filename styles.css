@@ -45,7 +45,6 @@ h1 {
   margin-top: 5px;
 }
 
-
 /* Área de mensagens */
 .messages-display {
   flex: 1;
@@ -103,14 +102,16 @@ h1 {
 /* Formulário */
 .message-form {
   display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px;
   background: #f0f0f0;
   border-top: 1px solid #ddd;
-  gap: 8px;
 }
 
+/* Campo nome */
 #username-input {
-  width: 30%;
+  width: 25%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 20px;
@@ -118,6 +119,7 @@ h1 {
   font-size: 0.9rem;
 }
 
+/* Campo mensagem */
 #message-input {
   flex: 1;
   padding: 10px;
@@ -127,20 +129,9 @@ h1 {
   font-size: 0.9rem;
 }
 
-button {
-  padding: 10px 18px;
-  background: #128C7E;
-  color: white;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.2s;
-} 
-
-
+/* Botão 📎 */
 #clipButton {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   background: none;
   border: none;
   cursor: pointer;
@@ -152,8 +143,19 @@ button {
   transform: scale(1.2);
 }
 
+/* Botão Enviar */
+#sendButton {
+  padding: 10px 18px;
+  background: #128C7E;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
 
-button:hover {
+#sendButton:hover {
   background: #075E54;
   transform: scale(1.05);
 }
@@ -188,7 +190,7 @@ button:hover {
     gap: 8px;
   }
 
-  #username-input, #message-input, button {
+  #username-input, #message-input, #sendButton, #clipButton {
     width: 100%;
     font-size: 1rem;
     padding: 12px;
