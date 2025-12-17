@@ -1,10 +1,16 @@
-const socket = io(); // Conecta ao Railway automaticamente
+const socket = io();
 
 const messagesContainer = document.getElementById('messages');
 const sendButton = document.getElementById('sendButton');
 const usernameInput = document.getElementById('username');
 const messageInput = document.getElementById('message');
-const imageInput = document.getElementById('image'); // novo input <input type="file" id="image">
+const imageInput = document.getElementById('image-input'); // escondido
+const clipButton = document.getElementById('clipButton');
+
+// 📎 abre seletor de arquivo
+clipButton.addEventListener('click', () => {
+  imageInput.click();
+});
 
 // Enviar mensagem
 sendButton.addEventListener('click', async () => {
@@ -53,16 +59,7 @@ sendButton.addEventListener('click', async () => {
   }
 });
 
-const clipButton = document.getElementById('clipButton');
-const imageInput = document.getElementById('image-input');
-
-// Ao clicar no botão 📎, abre o seletor de arquivo
-clipButton.addEventListener('click', () => {
-  imageInput.click();
-});
-
-
-// Receber histórico ao entrar na sala
+// Receber histórico
 socket.emit('join_room', 'default');
 socket.on('messages_history', (msgs) => {
   msgs.forEach(renderMessage);
