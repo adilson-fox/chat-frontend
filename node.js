@@ -4,18 +4,20 @@ const { Server } = require('socket.io');
 const { createClient } = require('@supabase/supabase-js');
 
 // 🔐 Inicializando o Supabase
-const supabase = createClient(
-  
-  process.env.SUPABASE_KEY,
-  process.env.SUPABASE_URL 
+// 1. Defina as variáveis do ambiente
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
+
+// 2. Verifique se as variáveis existem antes de tentar usar (melhora a clareza do erro)
 
   if (!SUPABASE_URL || !SUPABASE_KEY) {
   throw new Error("Variáveis SUPABASE_URL ou SUPABASE_KEY não estão definidas.");
 }
 
+// 3. Inicialize o cliente Supabase na ORDEM CORRETA: createClient(URL, ANON_KEY)
+// 🔐 Inicializando o Supabase
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // 🚀 Inicializando o servidor Express
 const app = express();
