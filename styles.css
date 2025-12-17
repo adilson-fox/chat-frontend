@@ -136,7 +136,22 @@ button {
   cursor: pointer;
   font-weight: bold;
   transition: transform 0.2s;
+} 
+
+
+#clipButton {
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  transition: transform 0.2s;
 }
+
+#clipButton:hover {
+  transform: scale(1.2);
+}
+
 
 button:hover {
   background: #075E54;
