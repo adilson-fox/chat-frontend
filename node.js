@@ -5,7 +5,7 @@ const { createClient } = require('@supabase/supabase-js');
 
 // 🔐 Inicializando o Supabase
 const SUPABASE_URL = "https://vepnalrpyaxhpklicqrb.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."; // sua chave anon
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlcG5hbHJweWF4aHBrbGljcXJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MDgxNzIsImV4cCI6MjA3NzQ4NDE3Mn0.-9_J-RE4IWdaGISGZgAXe6S2MLStG9lVm50suQKr7jY"; // sua chave anon
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
