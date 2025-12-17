@@ -14,6 +14,10 @@ const io = new Server(server, {
 });
 
 // Configuração do Supabase (Railway injeta as variáveis)
+
+console.log("SUPABASE_URL:", process.env.SUPABASE_URL);
+console.log("SUPABASE_KEY:", process.env.SUPABASE_KEY ? "OK" : "NÃO ENCONTRADA");
+
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_KEY
