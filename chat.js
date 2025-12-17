@@ -1,7 +1,9 @@
 // Conexão com backend hospedado no Render
 //const socket = io('https://adilson-fox.onrender.com');
 
-const socket = io('https://adilson-fox.onrender.com');
+//const socket = io('https://adilson-fox.onrender.com');
+const socket = io('http://localhost:3000');
+
 
 
 // Função para exibir mensagens
