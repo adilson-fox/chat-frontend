@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io(); // Conecta ao Railway automaticamente
 const messagesContainer = document.getElementById('messages');
 const sendButton = document.getElementById('sendButton');
 const usernameInput = document.getElementById('username');
@@ -10,16 +10,23 @@ sendButton.addEventListener('click', () => {
     const message = messageInput.value.trim();
     
     if (username && message) {
-        socket.emit('send_message', { username, message });
-        messageInput.value = ''; // Limpar campo de mensagem
+        // Mudamos de 'send_message' para 'message' para bater com o server.js
+        socket.emit('message', { 
+            user: username, // O servidor espera 'user'
+            text: message,  // O servidor espera 'text'
+            time: new Date().toLocaleTimeString() 
+        });
+        messageInput.value = ''; 
     }
 });
 
 // Receber mensagem do servidor
-socket.on('receive_message', (data) => {
+// Mudamos de 'receive_message' para 'message'
+socket.on('message', (data) => {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message');
-    messageElement.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
+    // Usamos data.user e data.text conforme definido no servidor
+    messageElement.innerHTML = `<strong>${data.user}:</strong> ${data.text}`;
     messagesContainer.appendChild(messageElement);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight; // Rolar para a última mensagem
+    messagesContainer.scrollTop = messagesContainer.scrollHeight; 
 });
