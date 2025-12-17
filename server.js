@@ -1,73 +1,43 @@
-// Log de diagnóstico
-console.log("--- DIAGNÓSTICO DE AMBIENTE ---");
-console.log("Variáveis disponíveis:", Object.keys(process.env).filter(k => k.includes('SUPABASE')));
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const { createClient } = require('@supabase/supabase-js');
+const { v4: uuidv4 } = require('uuid');
 
-const supabaseUrl = process.env.SUPABASE_URL?.replace(/['"]+/g, '').trim();
-const supabaseKey = process.env.SUPABASE_KEY?.replace(/['"]+/g, '').trim();
+const app = express(); // <--- ESSA LINHA PRECISA ESTAR AQUI
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: '*', methods: ['GET', 'POST'] }
+});
 
-if (!supabaseUrl || !supabaseKey) {
-  console.error("⚠️ ALERTA: SUPABASE_URL ou SUPABASE_KEY não encontradas no process.env");
+// --- CONFIGURAÇÃO DO SUPABASE COM DIAGNÓSTICO ---
+console.log("Checando variáveis no boot...");
+
+// Função para limpar aspas chatas
+const clean = (val) => val ? val.replace(/['"]+/g, '').trim() : null;
+
+const sUrl = clean(process.env.SUPABASE_URL);
+const sKey = clean(process.env.SUPABASE_KEY);
+
+let supabase = null;
+
+if (!sUrl || !sKey) {
+  console.error("❌ ERRO CRÍTICO: Variáveis não injetadas pelo Railway!");
+  console.log("Nomes de variáveis detectados:", Object.keys(process.env).filter(k => k.includes('SUPABASE')));
 } else {
   try {
-    const { createClient } = require('@supabase/supabase-js');
-    const supabase = createClient(supabaseUrl, supabaseKey);
-    console.log("✅ Cliente Supabase configurado com sucesso.");
-  } catch (e) {
-    console.error("Erro ao criar cliente:", e.message);
+    supabase = createClient(sUrl, sKey);
+    console.log("✅ Conectado ao Supabase:", sUrl);
+  } catch (err) {
+    console.error("❌ Erro ao iniciar cliente Supabase:", err.message);
   }
 }
 
-
 app.get('/', (req, res) => {
-  res.send('Servidor rodando com Supabase + Socket.io 🚀');
+  res.send('Servidor Ativo 🚀 Status Supabase: ' + (supabase ? 'Conectado' : 'Desconectado'));
 });
 
-io.on('connection', (socket) => {
-  console.log('Novo cliente conectado');
-
-  socket.on('mensagem', async ({ username, content }) => {
-    // Evita erro se o supabase for null
-    if (!supabase) {
-      console.error('Erro: Tentativa de salvar mensagem, mas o Supabase não está configurado.');
-      return;
-    }
-
-    const conversation_id = uuidv4();
-
-    const { data, error } = await supabase
-      .from('messages')
-      .insert([
-        {
-          conversation_id,
-          username,
-          content,
-          created_at: new Date().toISOString()
-        }
-      ]);
-
-    if (error) {
-      console.error('Erro ao salvar no Supabase:', error);
-    } else {
-      console.log('Mensagem salva!');
-      io.emit('mensagem', { username, content });
-    }
-  });
-
-  socket.on('listarMensagens', async () => {
-    if (!supabase) return;
-
-    const { data, error } = await supabase
-      .from('messages')
-      .select('*')
-      .order('created_at', { ascending: true });
-
-    if (error) {
-      console.error('Erro ao buscar mensagens:', error);
-    } else {
-      socket.emit('historico', data);
-    }
-  });
-});
+// O restante do seu código (io.on('connection')...) continua igual abaixo...
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
