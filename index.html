@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sala de Chat</title>
+    <title>Sala de Chat Pro</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,15 +14,13 @@
         <div id="messages-display" class="messages-display"></div>
 
         <form id="message-form" class="message-form">
-            <input type="text" id="username-input" placeholder="Digite seu nome..." required>
-            <input type="text" id="message-input" placeholder="Digite sua mensagem..." required>
+            <input type="text" id="username-input" placeholder="Seu nome..." required>
+            <input type="text" id="message-input" placeholder="Sua mensagem..." required autocomplete="off">
             <button type="submit">Enviar</button>
         </form>
     </div>
 
-    <!-- Cliente do Socket.IO -->
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <!-- Seu código -->
     <script src="chat.js"></script>
 
 </body>
