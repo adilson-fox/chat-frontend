@@ -15,102 +15,122 @@ body {
 
 .chat-container {
     background: white;
-    width: 90%;
-    max-width: 500px;
-    height: 80vh;
+    width: 95%;
+    max-width: 450px;
+    height: 85vh;
     border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
+/* Topo Estilo WhatsApp */
 h1 {
     text-align: center;
-    padding: 20px;
-    background: #007bff;
+    padding: 15px;
+    background: #075E54; /* Verde WhatsApp */
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
+/* Área de Mensagens com fundo clássico */
 .messages-display {
     flex: 1;
-    padding: 20px;
+    padding: 15px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    background: #f9f9f9;
+    gap: 12px;
+    background: #e5ddd5; /* Cor de fundo bege do WhatsApp */
 }
 
-/* Estilo dos Balões de Mensagem */
+/* Configuração base do Balão */
 .message {
-    background: #e1ffc7;
-    padding: 10px 15px;
-    border-radius: 15px 15px 15px 0;
-    max-width: 85%;
-    align-self: flex-start;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 80%;
     position: relative;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    line-height: 1.4;
+}
+
+/* Mensagem RECEBIDA (Outros - Esquerda) */
+.message.received {
+    align-self: flex-start;
+    background: white;
+    border-top-left-radius: 0;
+}
+
+/* Mensagem ENVIADA (Você - Direita) */
+.message.sent {
+    align-self: flex-end;
+    background: #dcf8c6; /* Verde claro WhatsApp */
+    border-top-right-radius: 0;
 }
 
 .message .user {
     display: block;
-    font-size: 0.8rem;
-    color: #555;
-    margin-bottom: 3px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #075E54;
+    margin-bottom: 2px;
 }
 
 .message .text {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #333;
-    line-height: 1.4;
 }
 
 .message .time {
     display: block;
-    font-size: 0.7rem;
-    color: #999;
+    font-size: 0.65rem;
+    color: #888;
     text-align: right;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
-/* Formulário na parte inferior */
+/* Formulário de envio inferior */
 .message-form {
     display: flex;
-    padding: 15px;
-    background: white;
-    border-top: 1px solid #eee;
-    gap: 10px;
+    padding: 12px;
+    background: #f0f0f0;
+    border-top: 1px solid #ddd;
+    gap: 8px;
 }
 
 #username-input {
     width: 30%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
     outline: none;
+    font-size: 0.9rem;
 }
 
 #message-input {
     flex: 1;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
     outline: none;
+    font-size: 0.9rem;
 }
 
 button {
-    padding: 10px 20px;
-    background: #007bff;
+    padding: 10px 18px;
+    background: #128C7E;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px; /* Botão arredondado */
     cursor: pointer;
     font-weight: bold;
-    transition: background 0.3s;
+    transition: transform 0.2s;
 }
 
 button:hover {
-    background: #0056b3;
+    background: #075E54;
+    transform: scale(1.05);
 }
