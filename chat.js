@@ -1,5 +1,5 @@
 // Conectar ao servidor Railway
-const socket = io("https://chat-frontend-production-e496.up.railway.app/"); // troque pela URL do seu deploy
+const socket = io("chat-frontend-production-66c5.up.railway.app"); // troque pela URL do seu deploy
 
 const messagesDisplay = document.getElementById("messages-display");
 const messageForm = document.getElementById("message-form");
