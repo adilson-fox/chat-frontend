@@ -14,6 +14,24 @@ body {
     align-items: center;
 }
 
+
+/* Versão Mobile */
+@media (max-width: 768px) {
+    body {
+        justify-content: stretch;
+        align-items: stretch;
+    }
+
+    .chat-container {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;   /* remove cantos arredondados */
+        max-width: none;    /* ocupa toda a largura */
+    }
+
+
+
+
 /* Container principal */
 .chat-container {
     background: white;
