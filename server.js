@@ -12,7 +12,6 @@ const io = new Server(server, {
 });
 
 // 1. CONFIGURAÇÃO DE ARQUIVOS ESTÁTICOS
-// Isso faz o Railway entregar seu HTML, CSS e JS do frontend
 app.use(express.static(__dirname)); 
 
 // 2. CONFIGURAÇÃO DO SUPABASE
@@ -25,23 +24,42 @@ if (supabaseUrl && supabaseKey) {
   console.log("✅ Conexão com Supabase preparada.");
 }
 
-// 3. ROTA PRINCIPAL (Abre o seu index.html)
+// 3. ROTA PRINCIPAL
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // 4. LÓGICA DO CHAT (SOCKET.IO)
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   console.log(`Usuário conectado: ${socket.id}`);
 
+  // --- NOVIDADE: BUSCAR HISTÓRICO AO CONECTAR ---
+  if (supabase) {
+    try {
+      const { data: messages, error } = await supabase
+        .from('messages')
+        .select('*')
+        .order('created_at', { ascending: true }) // Garante a ordem cronológica
+        .limit(50);
+
+      if (!error && messages) {
+        // Envia o histórico apenas para o usuário que acabou de entrar
+        socket.emit('previous_messages', messages);
+      }
+    } catch (err) {
+      console.error("Erro ao buscar histórico:", err);
+    }
+  }
+  // ----------------------------------------------
+
   socket.on('message', async (data) => {
-    // Envia para todos no chat em tempo real
+    // Envia para todos em tempo real
     io.emit('message', data);
 
-    // Salva no Banco de Dados (Supabase)
+    // Salva no Banco de Dados
     if (supabase) {
       const { error } = await supabase
-        .from('messages') // Certifique-se que o nome da tabela está correto
+        .from('messages')
         .insert([{ 
           id: uuidv4(), 
           user: data.user, 
