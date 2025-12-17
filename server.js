@@ -1,29 +1,22 @@
-// --- CONFIGURAÇÃO BLINDADA DO SUPABASE ---
+// Log de diagnóstico
+console.log("--- DIAGNÓSTICO DE AMBIENTE ---");
+console.log("Variáveis disponíveis:", Object.keys(process.env).filter(k => k.includes('SUPABASE')));
 
-// Função para remover aspas e espaços extras que o Railway pode injetar
-const limparVariavel = (valor) => {
-  if (!valor) return null;
-  return valor.replace(/['"]+/g, '').trim();
-};
-
-const supabaseUrl = limparVariavel(process.env.SUPABASE_URL);
-const supabaseKey = limparVariavel(process.env.SUPABASE_KEY);
-
-let supabase = null;
+const supabaseUrl = process.env.SUPABASE_URL?.replace(/['"]+/g, '').trim();
+const supabaseKey = process.env.SUPABASE_KEY?.replace(/['"]+/g, '').trim();
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error("⚠️ ALERTA: Variáveis não encontradas no process.env");
-  // Log para debug (não mostre sua chave inteira por segurança)
-  console.log("DEBUG -> URL encontrada:", supabaseUrl ? "SIM" : "NÃO");
+  console.error("⚠️ ALERTA: SUPABASE_URL ou SUPABASE_KEY não encontradas no process.env");
 } else {
   try {
-    supabase = createClient(supabaseUrl, supabaseKey);
-    console.log("✅ Cliente Supabase configurado com sucesso!");
-    console.log("🔗 Conectado em:", supabaseUrl);
-  } catch (err) {
-    console.error("❌ Erro fatal ao inicializar Supabase:", err.message);
+    const { createClient } = require('@supabase/supabase-js');
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    console.log("✅ Cliente Supabase configurado com sucesso.");
+  } catch (e) {
+    console.error("Erro ao criar cliente:", e.message);
   }
 }
+
 
 app.get('/', (req, res) => {
   res.send('Servidor rodando com Supabase + Socket.io 🚀');
