@@ -13,16 +13,18 @@
         
         <div id="messages-display" class="messages-display"></div>
 
-        <form id="message-form" class="message-form">
-            <input type="text" id="username-input" placeholder="Seu nome..." required>
-            <input type="text" id="message-input" placeholder="Sua mensagem..." required autocomplete="off"> 
-            <input type="file" id="image-input" accept="image/*"> <!-- novo campo -->
-             <button type="button" id="clipButton">📎</button>
-             <button type="submit" id="sendButton">Enviar</button>
-  
-            
-            <button type="submit">Enviar</button>
+      <form class="message-form" id="chat-form">
+      <input type="text" id="username" placeholder="Seu nome...">
+      <input type="text" id="message" placeholder="Sua mensagem...">
+
+      <!-- Input de arquivo escondido -->
+      <input type="file" id="image-input" accept="image/*" style="display:none">
+
+       <!-- Botão 📎 -->
+       <button type="button" id="clipButton">📎</button>
+       <button type="button" id="sendButton">Enviar</button>
 </form>
+
                    
             <button type="submit">Enviar</button>
         </form>
