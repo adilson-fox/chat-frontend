@@ -1,107 +1,116 @@
-body {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+}
+
+body {
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
 }
 
 .chat-container {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    background: white;
     width: 90%;
     max-width: 500px;
+    height: 80vh;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 h1 {
     text-align: center;
-    color: #444;
-    margin-bottom: 20px;
-    font-size: 1.6rem;
-    letter-spacing: 1px;
+    padding: 20px;
+    background: #007bff;
+    color: white;
+    font-size: 1.5rem;
 }
 
 .messages-display {
-    flex-grow: 1;
-    height: 300px;
-    border: none;
-    padding: 10px;
+    flex: 1;
+    padding: 20px;
     overflow-y: auto;
-    margin-bottom: 15px;
-    background-color: #f9f9fb;
-    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 15px;
+    background: #f9f9f9;
 }
 
+/* Estilo dos Balões de Mensagem */
 .message {
-    padding: 10px 14px;
-    margin-bottom: 5px;
-    border-radius: 20px;
-    max-width: 75%;
-    word-wrap: break-word;
-    font-size: 0.95rem;
-    line-height: 1.4;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Mensagens recebidas */
-.message.incoming {
-    background-color: #e1f5fe; /* Azul claro */
+    background: #e1ffc7;
+    padding: 10px 15px;
+    border-radius: 15px 15px 15px 0;
+    max-width: 85%;
     align-self: flex-start;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: relative;
 }
 
-/* Mensagens enviadas */
-.message.outgoing {
-    background-color: #c8e6c9; /* Verde claro */
-    align-self: flex-end;
+.message .user {
+    display: block;
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 3px;
+}
+
+.message .text {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.4;
+}
+
+.message .time {
+    display: block;
+    font-size: 0.7rem;
+    color: #999;
     text-align: right;
+    margin-top: 5px;
 }
 
-/* Formulário */
+/* Formulário na parte inferior */
 .message-form {
     display: flex;
-    border-top: 1px solid #ddd;
-    padding-top: 10px;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #eee;
+    gap: 10px;
 }
 
-#username-input, #message-input {
+#username-input {
+    width: 30%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-right: 8px;
-    font-size: 0.95rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
 }
 
 #message-input {
-    flex-grow: 1;
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
 }
 
-.message-form button {
-    padding: 10px 18px;
-    background-color: #007bff;
+button {
+    padding: 10px 20px;
+    background: #007bff;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
     font-weight: bold;
+    transition: background 0.3s;
 }
 
-.message-form button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-}
-
-/* Animação suave */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+button:hover {
+    background: #0056b3;
 }
