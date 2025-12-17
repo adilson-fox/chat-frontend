@@ -10,5 +10,8 @@
     "socket.io": "^4.7.2",
     "@supabase/supabase-js": "^2.39.0",
     "uuid": "^9.0.0"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
