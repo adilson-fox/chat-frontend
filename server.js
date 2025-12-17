@@ -1,33 +1,27 @@
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-const { createClient } = require('@supabase/supabase-js');
-const { v4: uuidv4 } = require('uuid');
+// --- CONFIGURAÇÃO BLINDADA DO SUPABASE ---
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  }
-});
+// Função para remover aspas e espaços extras que o Railway pode injetar
+const limparVariavel = (valor) => {
+  if (!valor) return null;
+  return valor.replace(/['"]+/g, '').trim();
+};
 
-// --- CONFIGURAÇÃO SEGURA DO SUPABASE ---
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
+const supabaseUrl = limparVariavel(process.env.SUPABASE_URL);
+const supabaseKey = limparVariavel(process.env.SUPABASE_KEY);
 
-// Verifica se as variáveis existem antes de criar o cliente
 let supabase = null;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error("⚠️ ALERTA: SUPABASE_URL ou SUPABASE_KEY não encontradas. O deploy continuará, mas a conexão com o banco falhará.");
+  console.error("⚠️ ALERTA: Variáveis não encontradas no process.env");
+  // Log para debug (não mostre sua chave inteira por segurança)
+  console.log("DEBUG -> URL encontrada:", supabaseUrl ? "SIM" : "NÃO");
 } else {
   try {
     supabase = createClient(supabaseUrl, supabaseKey);
-    console.log("✅ Cliente Supabase configurado com sucesso.");
+    console.log("✅ Cliente Supabase configurado com sucesso!");
+    console.log("🔗 Conectado em:", supabaseUrl);
   } catch (err) {
-    console.error("❌ Erro ao inicializar cliente Supabase:", err.message);
+    console.error("❌ Erro fatal ao inicializar Supabase:", err.message);
   }
 }
 
