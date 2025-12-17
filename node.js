@@ -7,10 +7,9 @@ const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(
   
   process.env.SUPABASE_KEY,
-  process.env.supabaseUrl
-);
+  process.env.SUPABASE_URL
 
-const supabase = createClient(supabaseUrl, SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // 🚀 Inicializando o servidor Express
 const app = express();
