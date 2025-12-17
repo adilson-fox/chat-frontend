@@ -13,15 +13,23 @@ const io = new Server(server, {
   }
 });
 
-// Configuração do Supabase (Railway injeta as variáveis)
+// --- CONFIGURAÇÃO SEGURA DO SUPABASE ---
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
 
-console.log("SUPABASE_URL:", process.env.SUPABASE_URL);
-console.log("SUPABASE_KEY:", process.env.SUPABASE_KEY ? "OK" : "NÃO ENCONTRADA");
+// Verifica se as variáveis existem antes de criar o cliente
+let supabase = null;
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
+if (!supabaseUrl || !supabaseKey) {
+  console.error("⚠️ ALERTA: SUPABASE_URL ou SUPABASE_KEY não encontradas. O deploy continuará, mas a conexão com o banco falhará.");
+} else {
+  try {
+    supabase = createClient(supabaseUrl, supabaseKey);
+    console.log("✅ Cliente Supabase configurado com sucesso.");
+  } catch (err) {
+    console.error("❌ Erro ao inicializar cliente Supabase:", err.message);
+  }
+}
 
 app.get('/', (req, res) => {
   res.send('Servidor rodando com Supabase + Socket.io 🚀');
@@ -30,9 +38,14 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('Novo cliente conectado');
 
-  // Receber mensagem do cliente
   socket.on('mensagem', async ({ username, content }) => {
-    const conversation_id = uuidv4(); // gera um UUID único
+    // Evita erro se o supabase for null
+    if (!supabase) {
+      console.error('Erro: Tentativa de salvar mensagem, mas o Supabase não está configurado.');
+      return;
+    }
+
+    const conversation_id = uuidv4();
 
     const { data, error } = await supabase
       .from('messages')
@@ -48,14 +61,14 @@ io.on('connection', (socket) => {
     if (error) {
       console.error('Erro ao salvar no Supabase:', error);
     } else {
-      console.log('Mensagem salva:', data);
-      // opcional: enviar de volta para todos os clientes conectados
+      console.log('Mensagem salva!');
       io.emit('mensagem', { username, content });
     }
   });
 
-  // Recuperar mensagens antigas
   socket.on('listarMensagens', async () => {
+    if (!supabase) return;
+
     const { data, error } = await supabase
       .from('messages')
       .select('*')
