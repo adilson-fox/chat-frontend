@@ -53,6 +53,15 @@ sendButton.addEventListener('click', async () => {
   }
 });
 
+const clipButton = document.getElementById('clipButton');
+const imageInput = document.getElementById('image-input');
+
+// Ao clicar no botão 📎, abre o seletor de arquivo
+clipButton.addEventListener('click', () => {
+  imageInput.click();
+});
+
+
 // Receber histórico ao entrar na sala
 socket.emit('join_room', 'default');
 socket.on('messages_history', (msgs) => {
